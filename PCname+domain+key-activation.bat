@@ -2,12 +2,11 @@
 REM FILL IN THE INFORMATION HERE TO USE THE FUNCTIONS THAT REQUIRE THESE VARIABLES 
 set domainName=PUT DOMAIN NAME HERE
 set adminUser=PUT ADMIN USER NAME HERE
-set adminPass=PUT ADMIN PASSWORD HERE
 set windowsKey=PUT WINDOWS KEY HERE
 
 
 
-echo Current PC name =  %computername%
+echo Current PC name = %computername%
 set /p text="do you want to change the name of the pc? y or n "
 set newname=%computername%
 
@@ -31,7 +30,7 @@ if %text% == y (
 
 
 :domainchange 
-	netdom /domain: %domainName% /user:%adminUser% /passowrd:%adminPass% <newname> /joindomain
+	powershell Add-Computer -ComputerName %computername% -NewName %newname% -DomainName %domainName% -Credential %adminUser%
 	echo please wait...
 	timeout /t 10 /nobreak > NUL
 	systeminfo | findstr /B /C:"Domain"
